@@ -1,4 +1,4 @@
-import uuid from "uuid"
+import uuid from "uuid";
 import React, {useState} from 'react';
 import Card from '@material-ui/core/Card';
 import List from '@material-ui/core/List';
@@ -12,8 +12,9 @@ import CardContent from '@material-ui/core/CardContent';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import NightsStayIcon from '@material-ui/icons/NightsStay';
-import { Button , TextField, IconButton} from '@material-ui/core'; 
 import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
+import { Button , TextField, IconButton} from '@material-ui/core'; 
+
 
 function App() {
 
@@ -21,9 +22,10 @@ function App() {
 
   const [nightMode, setNightMode] = React.useState({
     background: "#FFFFFF",
-    banner: "#48cae4",
+    banner: "#3F51B5",
     bannerText: "#FFFFFF",
     listText: "#000000",
+    inputBackground: "FFFFFF"
   });
 
   function nightmode(){
@@ -39,17 +41,19 @@ function App() {
       setNightMode(
         {
           background: "#413250", 
-          bannerText: "#FFFFFF",
+          bannerText: "#413250",
           listText: "#FFFFFF", 
-          banner: "#FFFFFF"
+          banner: "#FFFFFF",
+          inputBackground: "FFFFFF"
         });   
     }
     else{
       setNightMode({
         background: "#FFFFFF" ,
-        bannerText: "#000000" ,
+        bannerText: "#FFFFFF" ,
         listText: "#000000",
-        banner: "#48cae4"
+        banner: "#3F51B5",
+        inputBackground: "FFFFFF"
       });
     }
   }
@@ -95,14 +99,6 @@ function App() {
       text: "Learn about React",
       isCompleted: true
     },
-    {
-      text: "Meet friend for lunch",
-      isCompleted: false
-    },
-    {
-      text: "Wash Dishes",
-      isCompleted: false
-    }
   ]);
 
   const [value, setValue] = useState("");
@@ -134,7 +130,7 @@ function App() {
   };
  
   return (
-    <div style={{padding: 50, flexDirection: 'column', backgroundColor: nightMode.background}}>
+    <div style={{height: '100%', padding: 50, flexDirection: 'column', backgroundColor: nightMode.background}}>
 
       <div> 
         <div style = {{display: 'flex', fontFamily: 'Work Sans', fontSize: 25 , marginBottom: 25, color: '#CDCACA'}}>
@@ -142,7 +138,7 @@ function App() {
         </div> 
       </div> 
 
-      <Card style = {{marginBottom: 25, width: window.innerWidth/4, borderRadius: 30, backgroundColor: nightMode.banner, color: nightmode.bannerText}}>
+      <Card style = {{marginBottom: 25, width: window.innerWidth/4, borderRadius: 30, backgroundColor: nightMode.banner, color: nightMode.bannerText}}>
         <CardContent>
           <div style = {{display: 'flex', fontFamily: 'Work Sans', fontSize: 55}}>
             <text>Tuesday</text>
@@ -152,7 +148,7 @@ function App() {
         </CardContent>
       </Card>
       
-      <Drawer anchor={"bottom"} open={drawer} onClose={toggleDrawerClose} transitionDuration={300}>
+      <Drawer anchor={"bottom"} open={drawer} onClose={toggleDrawerClose} transitionDuration={300} color={nightMode.inputBackground}>
         <form onSubmit={handleSubmit}>
           <div style = {{padding: 50}}>
             <TextField inputProps={{style: {fontFamily: 'Work Sans'}}} InputLabelProps = {{style: {fontFamily: 'Roboto'}}} id="standard-basic" autoComplete='off' value={value} name= "task" label="New Goal"  fullWidth onChange ={e => setValue(e.target.value)}/>
@@ -201,7 +197,7 @@ function App() {
       </div>
 
       <div style = {{paddingLeft: (window.innerWidth/2)-100, justifyContent: 'flex-end'}}>
-        <IconButton color = "primary" onClick = {toggleDrawerOpen}>
+        <IconButton color = {nightmode.button} onClick = {toggleDrawerOpen}>
           <AddBoxRoundedIcon style={{ fontSize: 50 }}/>
         </IconButton>
       </div>
