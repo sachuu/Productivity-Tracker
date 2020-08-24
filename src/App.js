@@ -8,7 +8,6 @@ import { grey } from '@material-ui/core/colors';
 import Snackbar from '@material-ui/core/Snackbar';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItem from '@material-ui/core/ListItem';
-import { makeStyles } from '@material-ui/core/styles';
 import CardContent from '@material-ui/core/CardContent';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -18,13 +17,14 @@ import { Button , TextField, IconButton} from '@material-ui/core';
 
 function App() {
 
-  const [todos, setTodos] = useState([
-    {
-      text: "Learn about React",
-      isCompleted: false,
-      id: uuid()
-    },
-  ]);
+  const [todos, setTodos] = React.useState([]); // todos are empty by default
+
+  React.useEffect(() => {
+    // reads the todos saved from localStorage and set that as the new value
+    // of our todos state — if currList not found, will fallback to empty list
+    const savedTodos = JSON.parse(localStorage.getItem("currList")) || [];
+    setTodos(savedTodos);
+  }, []);
 
   const[isNightMode, setIsNightMode] = React.useState(false)
 
@@ -92,20 +92,17 @@ function App() {
   function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
-  
-  const useStyles = makeStyles((theme) => ({
-    root: {
-      width: '100%',
-      '& > * + *': {
-        marginTop: theme.spacing(2),
-      },
-    },
-  }));
 
   const [value, setValue] = useState("");
 
   const addTodo = text => {
-    setTodos([{text, isCompleted: false, id: uuid()}, ...todos]);
+    const newTodos = [
+      { text, id: uuid() },
+      ...todos
+    ];
+  
+    setTodos(newTodos);
+    localStorage.setItem("currList", JSON.stringify(newTodos));
   };
 
   const handleSubmit = e => {
@@ -118,13 +115,11 @@ function App() {
   };
 
   const removeTodo = index => {
-    const checkTodos = [...todos];
-    checkTodos[index].isCompleted = true;
-    setTodos(checkTodos);
 
     const newTodos = [...todos];
     newTodos.splice(index, 1);
     setTodos(newTodos);
+    localStorage.setItem("currList", JSON.stringify(newTodos));
 
     handleClick();
   };
