@@ -17,17 +17,23 @@ import { Button , TextField, IconButton} from '@material-ui/core';
 
 function App() {
 
-  const [todos, setTodos] = React.useState([]); // todos are empty by default
+  const [todos, setTodos] = React.useState([]); 
 
   React.useEffect(() => {
-    // reads the todos saved from localStorage and set that as the new value
-    // of our todos state — if currList not found, will fallback to empty list
+    //Reads/saves todos from localStorage on change. If currList isn't found it will fallback to an empty list
     const savedTodos = JSON.parse(localStorage.getItem("currList")) || [];
     setTodos(savedTodos);
   }, []);
 
-  const[isNightMode, setIsNightMode] = React.useState(false)
+  //Night Mode Settings ----------
+  const[isNightMode, setIsNightMode] = React.useState(false);
 
+  React.useEffect(() => {
+    //Reads/saves todos from localStorage on change. If currList isn't found it will fallback to an empty list
+    const sessionSettings = JSON.parse(localStorage.getItem("startupNightMode")) || [];
+    setNightMode(sessionSettings);
+  }, []);
+  
   const [nightMode, setNightMode] = React.useState({
     background: "#FFFFFF",
     banner: "#55BAF1",
@@ -45,7 +51,7 @@ function App() {
       setIsNightMode(true);
     }
 
-    if(isNightMode){
+    if(!isNightMode){
       setNightMode(
         {
           background: "#413250", 
@@ -54,6 +60,10 @@ function App() {
           banner: "#FFFFFF",
           inputBackground: "#465C68"
         });   
+
+        const currSession = nightMode;
+        localStorage.setItem("startupNightMode", JSON.stringify(currSession));
+        console.log(localStorage.getItem("startupNightMode"));
     }
     else{
       setNightMode({
@@ -63,9 +73,14 @@ function App() {
         banner: "#55BAF1",
         inputBackground: "#465C68"
       });
+
+      const currSession = nightMode;
+      localStorage.setItem("startupNightMode", JSON.stringify(currSession));
+      console.log(localStorage.getItem("startupNightMode"));
     }
   }
 
+  //Drawer Settings ----------
   const [drawer, setDrawer] = React.useState(false);
 
   function toggleDrawerOpen(){
@@ -89,12 +104,7 @@ function App() {
     setOpen(false);
   };
 
-  function Alert(props) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
-  }
-
-  const [value, setValue] = useState("");
-
+  //Add Todos ----------
   const addTodo = text => {
     const newTodos = [
       { text, id: uuid() },
@@ -105,15 +115,7 @@ function App() {
     localStorage.setItem("currList", JSON.stringify(newTodos));
   };
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    if (!value) return;
-    addTodo(value);
-    setValue("");
-
-    setDrawer(false);
-  };
-
+  //Remove Todos ----------
   const removeTodo = index => {
 
     const newTodos = [...todos];
@@ -123,6 +125,23 @@ function App() {
 
     handleClick();
   };
+
+  const [value, setValue] = useState("");
+
+  //Submit Form ----------
+  const handleSubmit = e => {
+    e.preventDefault();
+    if (!value) return;
+    addTodo(value);
+    setValue("");
+
+    setDrawer(false);
+  };
+
+  //Alert Settings ----------
+  function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
  
   return (
     <div style={{height: '100%', padding: 50, flexDirection: 'column', backgroundColor: nightMode.background}}>
@@ -165,7 +184,7 @@ function App() {
                 <ListItemIcon>
                   <Checkbox
                     edge="start"
-                    checked={value.isCompleted}
+                    checked={false}
                     onChange={() => removeTodo(index)}
                     tabIndex={-1}
                     disableRipple
@@ -196,7 +215,6 @@ function App() {
           <AddBoxRoundedIcon style={{ fontSize: 50, color: grey[500]}}/>
         </IconButton>
       </div>
-
     </div>
   );
 };
