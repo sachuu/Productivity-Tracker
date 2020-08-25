@@ -29,7 +29,6 @@ function App() {
   const[isNightMode, setIsNightMode] = React.useState(false);
 
   React.useEffect(() => {
-    //Reads/saves todos from localStorage on change. If currList isn't found it will fallback to an empty list
     const sessionSettings = JSON.parse(localStorage.getItem("startupNightMode")) || [];
     setNightMode(sessionSettings);
   }, []);
@@ -42,8 +41,7 @@ function App() {
     inputBackground: "FFFFFF",
   });
 
-  function nightmode(){
-    
+  function switchNightMode(){
     if(isNightMode){ 
       setIsNightMode(false);  
     }
@@ -51,7 +49,7 @@ function App() {
       setIsNightMode(true);
     }
 
-    if(!isNightMode){
+    if(isNightMode){
       setNightMode(
         {
           background: "#413250", 
@@ -61,9 +59,15 @@ function App() {
           inputBackground: "#465C68"
         });   
 
-        const currSession = nightMode;
+        const currSession = {
+          background: "#413250" ,
+          bannerText: "#413250" ,
+          listText: "#FFFFFF",
+          banner: "#FFFFFF",
+          inputBackground: "#465C68"
+        };
+
         localStorage.setItem("startupNightMode", JSON.stringify(currSession));
-        console.log(localStorage.getItem("startupNightMode"));
     }
     else{
       setNightMode({
@@ -74,9 +78,15 @@ function App() {
         inputBackground: "#465C68"
       });
 
-      const currSession = nightMode;
+      const currSession = {
+        background: "#FFFFFF" ,
+        bannerText: "#FFFFFF" ,
+        listText: "#000000",
+        banner: "#55BAF1",
+        inputBackground: "#465C68"
+      };
+
       localStorage.setItem("startupNightMode", JSON.stringify(currSession));
-      console.log(localStorage.getItem("startupNightMode"));
     }
   }
 
@@ -205,13 +215,13 @@ function App() {
       </div>
 
       <div style = {{display: 'flex', justifyContent: 'flex-end'}}>
-        <IconButton onClick = {nightmode}>
+        <IconButton onClick = {switchNightMode}>
           <NightsStayIcon/>
         </IconButton>
       </div>
 
       <div style = {{paddingLeft: (window.innerWidth/2)-100, justifyContent: 'flex-end'}}>
-        <IconButton color = {nightmode.button} onClick = {toggleDrawerOpen}>
+        <IconButton onClick = {toggleDrawerOpen}>
           <AddBoxRoundedIcon style={{ fontSize: 50, color: grey[500]}}/>
         </IconButton>
       </div>
