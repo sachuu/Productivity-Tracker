@@ -44,12 +44,38 @@ function App() {
   function updateGreeting(){
     time = new Date();
     
-    console.log(time.getHours())
-  }
+    let hour = time.getHours();
 
-  React.useEffect(() => {
-    setInterval(()=>updateGreeting(), 1000)
-  });
+    console.log(hour);
+
+    if(12 > hour && hour > 5){
+      setCurrGreeting(greetings[0]);
+
+      const curSessionGreeting = JSON.parse(localStorage.getItem("sessionGreeting")) || [];
+      if(curSessionGreeting != currGreeting){
+        localStorage.setItem("sessionGreeting", JSON.stringify(greetings[0]));
+        setCurrGreeting(greetings[0]);
+      }
+    }
+    if((18 > hour && hour > 12) || hour === 12){
+      setCurrGreeting(greetings[1]);
+
+      const curSessionGreeting = JSON.parse(localStorage.getItem("sessionGreeting")) || [];
+      if(curSessionGreeting != currGreeting){
+        localStorage.setItem("sessionGreeting", JSON.stringify(greetings[1]));
+        setCurrGreeting(greetings[1]);
+      }
+    }
+    if(hour > 18 || (5 > hour && hour > 0)){
+      setCurrGreeting(greetings[2]);
+
+      const curSessionGreeting = JSON.parse(localStorage.getItem("sessionGreeting")) || [];
+      if(curSessionGreeting != currGreeting){
+        localStorage.setItem("sessionGreeting", JSON.stringify(greetings[2]));
+        setCurrGreeting(greetings[2]);
+      }
+    }
+  }
 
   //Date Settings ----------
   let date = new Date();
@@ -62,12 +88,18 @@ function App() {
     setCurrDate(days[currDay]);
   }
 
+  //Everything updated every second except storing greetings to limit database calls.
   React.useEffect(() => {
-    setInterval(()=>updateTime(), 1000)
+    updateGreeting();
+    setInterval(()=>updateGreeting(), 1000);
   });
 
   React.useEffect(() => {
-    setInterval(()=>updateDate(), 60000)
+    setInterval(()=>updateTime(), 1000);
+  });
+
+  React.useEffect(() => {
+    setInterval(()=>updateDate(), 60000);
   });
     
   //Night Mode Settings ----------
@@ -203,7 +235,7 @@ function App() {
 
       <div> 
         <div style = {{display: 'flex', fontFamily: 'Work Sans', fontSize: 25 , marginBottom: 25, color: '#CDCACA'}}>
-          <text>Good Morning</text>
+          <text>{currGreeting}</text>
         </div> 
       </div> 
 
