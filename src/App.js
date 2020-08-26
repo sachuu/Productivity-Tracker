@@ -1,4 +1,4 @@
-import uuid from "uuid";
+import uuid, { stringify } from "uuid";
 import React, {useState} from 'react';
 import Card from '@material-ui/core/Card';
 import List from '@material-ui/core/List';
@@ -17,6 +17,7 @@ import { Button , TextField, IconButton} from '@material-ui/core';
 
 function App() {
 
+  //Todos ----------
   const [todos, setTodos] = React.useState([]); 
 
   React.useEffect(() => {
@@ -25,6 +26,50 @@ function App() {
     setTodos(savedTodos);
   }, []);
 
+  //Time Settings ----------
+  const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const greetings = ["Good Morning", "Good Afternoon", "Good Evening"];
+
+  let time = new Date().toLocaleTimeString([], {timeStyle: 'short'});
+  const [currTime, setCurrTime] = useState(time);
+
+  function updateTime(){
+    time = new Date().toLocaleTimeString([], {timeStyle: 'short'});
+    setCurrTime(time);
+  };
+
+  //Greeting Settings ----------
+  const [currGreeting, setCurrGreeting] = useState(greetings[0]);
+
+  function updateGreeting(){
+    time = new Date();
+    
+    console.log(time.getHours())
+  }
+
+  React.useEffect(() => {
+    setInterval(()=>updateGreeting(), 1000)
+  });
+
+  //Date Settings ----------
+  let date = new Date();
+  let currDay = date.getDay();
+  const [currDate, setCurrDate] = useState(days[currDay]);
+
+  function updateDate(){
+    date = new Date();
+    currDay = date.getDay();
+    setCurrDate(days[currDay]);
+  }
+
+  React.useEffect(() => {
+    setInterval(()=>updateTime(), 1000)
+  });
+
+  React.useEffect(() => {
+    setInterval(()=>updateDate(), 60000)
+  });
+    
   //Night Mode Settings ----------
   const[isNightMode, setIsNightMode] = React.useState(false);
 
@@ -165,10 +210,10 @@ function App() {
       <Card style = {{marginBottom: 25, width: window.innerWidth/4, borderRadius: 30, backgroundColor: nightMode.banner, color: nightMode.bannerText, raised: true}}>
         <CardContent>
           <div style = {{display: 'flex', fontFamily: 'Work Sans', fontSize: 55}}>
-            <text>Tuesday</text>
+            <text>{currDate}</text>
           </div>
 
-          <text style = {{display: 'flex', fontFamily: 'Work Sans', fontSize: 45}}>11:45</text>
+          <text style = {{display: 'flex', fontFamily: 'Work Sans', fontSize: 45}}>{currTime}</text>
         </CardContent>
       </Card>
       
