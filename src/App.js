@@ -1,4 +1,4 @@
-import uuid, { stringify } from "uuid";
+import uuid from "uuid";
 import React, {useState} from 'react';
 import Card from '@material-ui/core/Card';
 import List from '@material-ui/core/List';
@@ -14,6 +14,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import NightsStayIcon from '@material-ui/icons/NightsStay';
 import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
 import { Button , TextField, IconButton} from '@material-ui/core'; 
+import BarChartRoundedIcon from '@material-ui/icons/BarChartRounded';
 
 function App() {
 
@@ -46,34 +47,14 @@ function App() {
     
     let hour = time.getHours();
 
-    console.log(hour);
-
     if(12 > hour && hour > 5){
       setCurrGreeting(greetings[0]);
-
-      const curSessionGreeting = JSON.parse(localStorage.getItem("sessionGreeting")) || [];
-      if(curSessionGreeting != currGreeting){
-        localStorage.setItem("sessionGreeting", JSON.stringify(greetings[0]));
-        setCurrGreeting(greetings[0]);
-      }
     }
     if((18 > hour && hour > 12) || hour === 12){
       setCurrGreeting(greetings[1]);
-
-      const curSessionGreeting = JSON.parse(localStorage.getItem("sessionGreeting")) || [];
-      if(curSessionGreeting != currGreeting){
-        localStorage.setItem("sessionGreeting", JSON.stringify(greetings[1]));
-        setCurrGreeting(greetings[1]);
-      }
     }
     if(hour > 18 || (5 > hour && hour > 0)){
       setCurrGreeting(greetings[2]);
-
-      const curSessionGreeting = JSON.parse(localStorage.getItem("sessionGreeting")) || [];
-      if(curSessionGreeting != currGreeting){
-        localStorage.setItem("sessionGreeting", JSON.stringify(greetings[2]));
-        setCurrGreeting(greetings[2]);
-      }
     }
   }
 
@@ -178,18 +159,27 @@ function App() {
     setDrawer(false);
   }
 
-  const [open, setOpen] = React.useState(false);
+  //Dashboard Settings ----------
+  const [dashboard, setDashboard] = React.useState(false);
 
-  const handleClick = () => {
-    setOpen(true);
-  };
+  function toggleDashboardOpen(){
+    setDashboard(true);
+  }
 
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setOpen(false);
-  };
+  function toggleDashboardClose(){
+    setDashboard(false);
+  }
+
+  //User Stats ----------
+  const [tasksFinishedTotal, setTasksFinishedTotal] = React.useState(0);
+  const [tasksFinishedToday, setTasksFinishedToday] = React.useState(0);
+  const [avgSunday, setAvgSunday] = React.useState(0);
+  const [avgMonday, setAvgMonday] = React.useState(0);
+  const [avgTuesday, setAvgTuesday] = React.useState(0);
+  const [avgWednesday, setAvgWednesday] = React.useState(0);
+  const [avgThursday, setAvgThursday] = React.useState(0);
+  const [avgFriday, setAvgFriday] = React.useState(0);
+  const [avgSaturday, setAvgSaturday] = React.useState(0);
 
   //Add Todos ----------
   const addTodo = text => {
@@ -229,6 +219,19 @@ function App() {
   function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
  
   return (
     <div style={{height: '100%', padding: 50, flexDirection: 'column', backgroundColor: nightMode.background}}>
@@ -263,6 +266,18 @@ function App() {
         </form>
       </Drawer>
 
+      <Drawer anchor={"bottom"} open={dashboard} onClose={toggleDashboardClose} transitionDuration={300}>
+        <Card style = {{marginBottom: 25, width: window.innerWidth/4, borderRadius: 30, backgroundColor: nightMode.banner, color: nightMode.bannerText, raised: true}}>
+          <CardContent>
+            <div style = {{display: 'flex', fontFamily: 'Work Sans', fontSize: 55}}>
+              <text>{currDate}</text>
+            </div>
+
+            <text style = {{display: 'flex', fontFamily: 'Work Sans', fontSize: 45}}>{currTime}</text>
+          </CardContent>
+        </Card>
+      </Drawer>
+
       <div style = {{paddingTop: 40}}>
         <List>
           {todos.map((value, index) => {
@@ -293,7 +308,13 @@ function App() {
 
       <div style = {{display: 'flex', justifyContent: 'flex-end'}}>
         <IconButton onClick = {switchNightMode}>
-          <NightsStayIcon/>
+          <NightsStayIcon style={{ color: grey[500]}}/>
+        </IconButton>
+      </div>
+
+      <div style = {{display: 'flex', justifyContent: 'flex-end'}}>
+        <IconButton onClick = {toggleDashboardOpen}>
+          <BarChartRoundedIcon style={{ color: grey[500]}}/>
         </IconButton>
       </div>
 
