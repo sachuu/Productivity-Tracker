@@ -2,6 +2,7 @@ import uuid from "uuid";
 import React, {useState} from 'react';
 import Card from '@material-ui/core/Card';
 import List from '@material-ui/core/List';
+import { Chart } from "react-google-charts";
 import Drawer from '@material-ui/core/Drawer';
 import MuiAlert from '@material-ui/lab/Alert';
 import { grey } from '@material-ui/core/colors';
@@ -13,6 +14,7 @@ import CardContent from '@material-ui/core/CardContent';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import NightsStayIcon from '@material-ui/icons/NightsStay';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import CachedRoundedIcon from '@material-ui/icons/CachedRounded';
 import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
 import { Button , TextField, IconButton} from '@material-ui/core'; 
@@ -55,7 +57,7 @@ function App() {
     if((18 > hour && hour > 12) || hour === 12){
       setCurrGreeting(greetings[1]);
     }
-    if(hour > 18 || (5 > hour && hour > 0)){
+    if(hour > 18 || (5 > hour && hour >= 0)){
       setCurrGreeting(greetings[2]);
     }
   }
@@ -269,17 +271,29 @@ function App() {
       </Drawer>
 
       <Drawer anchor={"bottom"} open={dashboard} onClose={toggleDashboardClose} transitionDuration={300}>
-        <Card style = {{margin: 25, width: window.innerWidth/4, borderRadius: 30, backgroundColor: deepPurple[200], color: grey[50], raised: true}}>
-          <CardContent>
-            <div style = {{display: 'flex', fontFamily: 'Work Sans', fontSize: 55}}>
-              <text>{"24%"}</text>
-            </div>
-
-            <text style = {{display: 'flex', fontFamily: 'Work Sans', fontSize: 25, color: grey[20]}}>{"Avg Goals Completed (Weekly)"}</text>
-          </CardContent>
-        </Card>
+        <div style = {{display: 'flex', flexDirection: "row", justifyContent: 'space-evenly'}}>
+          <Card style = {{margin: 25, width: window.innerWidth/4, borderRadius: 30, backgroundColor: deepPurple[200], color: grey[50], raised: true}}>
+            <CardContent>
+              <div style = {{display: 'flex', flexDirection: "column", fontFamily: 'Work Sans', fontSize: 55}}>
+                <text>{"5"}</text>
+                <text style = {{display: 'flex', fontFamily: 'Work Sans', fontSize: 25, color: grey[20]}}>{"Day Streak"}</text>
+                <text style = {{display: 'flex', fontFamily: 'Work Sans', fontSize: 25, color: grey[20]}}>{"Congratulations"}</text>
+              </div>
+              <div style = {{flexDirection: "column", alignSelf: "center", justifyContent: "center"}}>
+                <AccountCircleIcon style={{fontSize: 75}}/>
+              </div>
+            </CardContent>
+          </Card>
+          <Chart
+            chartType="ScatterChart"
+            data={[["Age", "Weight"], [4, 5.5], [8, 12]]}
+            width="80%"
+            height="300px"
+            legendToggle
+          />
+        </div>
         <IconButton onClick = {switchNightMode}>
-          <CachedRoundedIcon/>
+          <CachedRoundedIcon style = {{fontSize: 40}}/>
         </IconButton>
       </Drawer>
 
