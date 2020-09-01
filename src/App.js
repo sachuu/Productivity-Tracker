@@ -185,6 +185,21 @@ function App() {
   const [avgFriday, setAvgFriday] = React.useState(0);
   const [avgSaturday, setAvgSaturday] = React.useState(0);
 
+  function addTotalTasks(){
+    setTasksFinishedTotal(tasksFinishedTotal+1);
+    localStorage.setItem("totalTasks", tasksFinishedTotal);
+  }
+
+  function resetStats(){
+    setTasksFinishedTotal(0);
+    localStorage.setItem("totalTasks", tasksFinishedTotal);
+  }
+
+  React.useEffect(() => {
+    const totalTasksSaved = JSON.parse(localStorage.getItem("totalTasks")) || 0;
+    setTasksFinishedTotal(totalTasksSaved+1);
+  }, []);
+
   //Add Todos ----------
   const addTodo = text => {
     const newTodos = [
@@ -205,6 +220,7 @@ function App() {
     localStorage.setItem("currList", JSON.stringify(newTodos));
 
     handleClick();
+    addTotalTasks();
   };
 
   const [value, setValue] = useState("");
@@ -275,18 +291,17 @@ function App() {
           <Card style = {{margin: 25, width: window.innerWidth/4, borderRadius: 30, backgroundColor: deepPurple[200], color: grey[50], raised: true}}>
             <CardContent>
               <div style = {{display: 'flex', flexDirection: "column", fontFamily: 'Work Sans', fontSize: 55}}>
-                <text>{"5"}</text>
-                <text style = {{display: 'flex', fontFamily: 'Work Sans', fontSize: 25, color: grey[20]}}>{"Day Streak"}</text>
-                <text style = {{display: 'flex', fontFamily: 'Work Sans', fontSize: 25, color: grey[20]}}>{"Congratulations"}</text>
+                <text>{tasksFinishedTotal}</text>
+                <text style = {{display: 'flex', fontFamily: 'Work Sans', fontSize: 25, color: grey[20]}}>{"Total Tasks Completed"}</text>
               </div>
-              <div style = {{flexDirection: "column", alignSelf: "center", justifyContent: "center"}}>
+              <div style = {{display: "flex", justifyContent: "center", marginTop: 10}}>
                 <AccountCircleIcon style={{fontSize: 75}}/>
               </div>
             </CardContent>
           </Card>
           <Chart
             chartType="ScatterChart"
-            data={[["Age", "Weight"], [4, 5.5], [8, 12]]}
+            data={[["Age", "Weight"], [4,5], [1,2]]}
             width="80%"
             height="300px"
             legendToggle
