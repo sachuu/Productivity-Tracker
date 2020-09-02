@@ -1,24 +1,37 @@
 import uuid from "uuid";
 import React, {useState} from 'react';
-import Card from '@material-ui/core/Card';
-import List from '@material-ui/core/List';
+
 import { Chart } from "react-google-charts";
+
 import Drawer from '@material-ui/core/Drawer';
 import MuiAlert from '@material-ui/lab/Alert';
-import { grey } from '@material-ui/core/colors';
 import Snackbar from '@material-ui/core/Snackbar';
 import Checkbox from '@material-ui/core/Checkbox';
-import ListItem from '@material-ui/core/ListItem';
-import { deepPurple } from '@material-ui/core/colors';
+
+import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
+
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+
 import NightsStayIcon from '@material-ui/icons/NightsStay';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import CachedRoundedIcon from '@material-ui/icons/CachedRounded';
+
+import { grey } from '@material-ui/core/colors';
+import { deepPurple } from '@material-ui/core/colors';
+
 import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
 import { Button , TextField, IconButton} from '@material-ui/core'; 
 import BarChartRoundedIcon from '@material-ui/icons/BarChartRounded';
+
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 function App() {
 
@@ -163,6 +176,16 @@ function App() {
     setDrawer(false);
   }
 
+  const [resetPrompt, setResetPrompt] = React.useState(false);
+
+  const promptOpen = () => {
+    setResetPrompt(true);
+  };
+
+  const promptClose = () => {
+    setResetPrompt(false);
+  };
+
   //Dashboard Settings ----------
   const [dashboard, setDashboard] = React.useState(false);
 
@@ -177,6 +200,15 @@ function App() {
   //User Stats ----------
   const [tasksFinishedTotal, setTasksFinishedTotal] = React.useState(0);
   const [tasksFinishedToday, setTasksFinishedToday] = React.useState(0);
+
+  const [totalSunday, setTotalSunday] = React.useState(0);
+  const [totalMonday, setTotalMonday] = React.useState(0);
+  const [totalTuesday, setTotalTuesday] = React.useState(0);
+  const [totalWednesday, setTotalWednesday] = React.useState(0);
+  const [totalThursday, setTotalThursday] = React.useState(0);
+  const [totalFriday, setTotalFriday] = React.useState(0);
+  const [totalSaturday, setTotalSaturday] = React.useState(0);
+
   const [avgSunday, setAvgSunday] = React.useState(0);
   const [avgMonday, setAvgMonday] = React.useState(0);
   const [avgTuesday, setAvgTuesday] = React.useState(0);
@@ -185,19 +217,179 @@ function App() {
   const [avgFriday, setAvgFriday] = React.useState(0);
   const [avgSaturday, setAvgSaturday] = React.useState(0);
 
+  function addWeekdayTotal(){
+    const timeForDay = new Date();
+    
+    let currentDay = timeForDay.getDay(); 
+
+    if(currentDay === 0){
+      addSunday();
+      console.log("added Sunday")
+    }
+    else if(currentDay === 1){
+      addMonday();
+      console.log("added Monday");
+    }
+    else if(currentDay === 2){
+      addTuesday();
+      console.log("added Tuesday");
+    }
+    else if(currentDay === 3){
+      addWednesday();
+      console.log("added Wednesday");
+    }
+    else if(currentDay === 4){
+      addThursday();
+      console.log("added Thursday");
+    }
+    else if(currentDay === 5){
+      addFriday();
+      console.log("added Friday");
+    }
+    else if(currentDay === 6){
+      addSaturday();
+      console.log("added Saturday");
+    }
+  }
+
+  function addSunday(){
+    const currSunday = totalSunday + 1;
+    setTotalSunday(totalSunday + 1);
+    localStorage.setItem("storedTotalSunday", currSunday);
+
+    //Make sure avg is average 
+    const currTotalTasks = tasksFinishedTotal + 1;
+    const sunAvg = Math.round(currTotalTasks / currSunday);
+    setAvgSunday(sunAvg);
+  }
+
+  function addMonday(){
+    const currMonday = totalMonday + 1;
+    setTotalMonday(totalMonday + 1);
+    localStorage.setItem("storedTotalMonday", currMonday);
+
+    const currTotalTasks = tasksFinishedTotal + 1;
+    const monAvg = Math.round(currTotalTasks / currMonday);
+    setAvgMonday(monAvg); 
+  }
+
+  function addTuesday(){
+    const currTuesday = totalTuesday + 1;
+    setTotalTuesday(totalTuesday + 1);
+    localStorage.setItem("storedTotalTuesday", currTuesday);
+
+    const currTotalTasks = tasksFinishedTotal + 1;
+    const tuesAvg = Math.round(currTotalTasks / currTuesday);
+    setAvgTuesday(tuesAvg); 
+  }
+
+  function addWednesday(){
+    const currWednesday = totalWednesday + 1;
+    setTotalWednesday(totalWednesday + 1);
+    localStorage.setItem("storedTotalWednesday", currWednesday);
+
+    const currTotalTasks = tasksFinishedTotal + 1;
+    const wedAvg = Math.round(currTotalTasks / currWednesday);
+    setAvgWednesday(wedAvg); 
+  }
+
+  function addThursday(){
+    const currThursday = totalThursday + 1;
+    setTotalThursday(totalThursday + 1);
+    localStorage.setItem("storedTotalThursday", currThursday);
+
+    const currTotalTasks = tasksFinishedTotal + 1;
+    const thurAvg = Math.round(currTotalTasks / currThursday);
+    setAvgThursday(thurAvg); 
+  }
+
+  function addFriday(){
+    const currFriday = totalFriday + 1;
+    setTotalFriday(totalFriday + 1);
+    localStorage.setItem("storedTotalFriday", currFriday);
+
+    const currTotalTasks = tasksFinishedTotal + 1;
+    const friAvg = Math.round(currTotalTasks / currFriday);
+    setAvgFriday(friAvg); 
+  }
+
+  function addSaturday(){
+    const currSaturday = totalSaturday + 1;
+    setTotalSaturday(totalSaturday + 1);
+    localStorage.setItem("storedTotalSaturday", currSaturday);
+
+    const currTotalTasks = tasksFinishedTotal + 1;
+    const satAvg = Math.round(currTotalTasks / currSaturday);
+    setAvgSaturday(satAvg); 
+  }
+
+  function resetDates(){
+    setTotalSunday(0);
+    setTotalMonday(0);
+    setTotalTuesday(0);
+    setTotalWednesday(0);
+    setTotalThursday(0);
+    setTotalFriday(0);
+    setTotalSaturday(0);
+
+    localStorage.setItem("storedTotalSunday", 0);
+    localStorage.setItem("storageTotalMonday", 0);
+    localStorage.setItem("storageTotalTuesday", 0);
+    localStorage.setItem("storageTotalWednesday", 0);
+    localStorage.setItem("storageTotalThursday", 0);
+    localStorage.setItem("storageTotalFriday", 0);
+    localStorage.setItem("storageTotalSaturday", 0);
+  }
+
+  React.useEffect(() => {
+    const daysAdded = JSON.parse(localStorage.getItem("storedTotalSunday")) || 0;
+    setTotalSunday(daysAdded);
+  }, []);
+
+  React.useEffect(() => {
+    const daysAdded = JSON.parse(localStorage.getItem("storageTotalMonday")) || 0;
+    setTotalMonday(daysAdded);
+  }, []);
+
+  React.useEffect(() => {
+    const daysAdded = JSON.parse(localStorage.getItem("storageTotalTuesday")) || 0;
+    setTotalTuesday(daysAdded);
+  }, []);
+
+  React.useEffect(() => {
+    const daysAdded = JSON.parse(localStorage.getItem("storageTotalWednesday")) || 0;
+    setTotalWednesday(daysAdded);
+  }, []);
+
+  React.useEffect(() => {
+    const daysAdded = JSON.parse(localStorage.getItem("storageTotalThursday")) || 0;
+    setTotalThursday(daysAdded);
+  }, []);
+
+  React.useEffect(() => {
+    const daysAdded = JSON.parse(localStorage.getItem("storageTotalFriday")) || 0;
+    setTotalFriday(daysAdded);
+  }, []);
+
+  React.useEffect(() => {
+    const daysAdded = JSON.parse(localStorage.getItem("storageTotalSaturday")) || 0;
+    setTotalSaturday(daysAdded);
+  }, []);
+
   function addTotalTasks(){
+    let currTasks = tasksFinishedTotal + 1 
     setTasksFinishedTotal(tasksFinishedTotal+1);
-    localStorage.setItem("totalTasks", tasksFinishedTotal);
+    localStorage.setItem("totalTasks", currTasks);
   }
 
   function resetStats(){
     setTasksFinishedTotal(0);
-    localStorage.setItem("totalTasks", tasksFinishedTotal);
+    localStorage.setItem("totalTasks", 0);
   }
 
   React.useEffect(() => {
     const totalTasksSaved = JSON.parse(localStorage.getItem("totalTasks")) || 0;
-    setTasksFinishedTotal(totalTasksSaved+1);
+    setTasksFinishedTotal(totalTasksSaved);
   }, []);
 
   //Add Todos ----------
@@ -220,7 +412,8 @@ function App() {
     localStorage.setItem("currList", JSON.stringify(newTodos));
 
     handleClick();
-    addTotalTasks();
+    addTotalTasks();    //total tasks
+    addWeekdayTotal();  //weekday totals / avg for data visualizer
   };
 
   const [value, setValue] = useState("");
@@ -307,10 +500,32 @@ function App() {
             legendToggle
           />
         </div>
-        <IconButton onClick = {switchNightMode}>
+        <IconButton onClick = {promptOpen}>
           <CachedRoundedIcon style = {{fontSize: 40}}/>
         </IconButton>
       </Drawer>
+
+      <Dialog
+        open={resetPrompt}
+        onClose={promptClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Reset All Stats To Zero? "}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Start fresh from the beginning 
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={promptClose} color="primary">
+            No
+          </Button>
+          <Button onClick={promptClose, resetStats} color="primary" autoFocus>
+            Yes
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       <div style = {{paddingTop: 40}}>
         <List>
