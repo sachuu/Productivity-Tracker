@@ -259,7 +259,7 @@ function App() {
 
     //Make sure avg is average 
     const currTotalTasks = tasksFinishedTotal + 1;
-    const sunAvg = Math.round(currTotalTasks / currSunday);
+    const sunAvg = (Math.round(currTotalTasks / currSunday)*100);
     setAvgSunday(sunAvg);
   }
 
@@ -269,7 +269,7 @@ function App() {
     localStorage.setItem("storedTotalMonday", currMonday);
 
     const currTotalTasks = tasksFinishedTotal + 1;
-    const monAvg = Math.round(currTotalTasks / currMonday);
+    const monAvg = (Math.round(currTotalTasks / currMonday)*100);
     setAvgMonday(monAvg); 
   }
 
@@ -279,7 +279,7 @@ function App() {
     localStorage.setItem("storedTotalTuesday", currTuesday);
 
     const currTotalTasks = tasksFinishedTotal + 1;
-    const tuesAvg = Math.round(currTotalTasks / currTuesday);
+    const tuesAvg = (Math.round(currTotalTasks / currTuesday)*100);
     setAvgTuesday(tuesAvg); 
   }
 
@@ -289,7 +289,9 @@ function App() {
     localStorage.setItem("storedTotalWednesday", currWednesday);
 
     const currTotalTasks = tasksFinishedTotal + 1;
-    const wedAvg = Math.round(currTotalTasks / currWednesday);
+    const wedAvg = (Math.round((currWednesday / currTotalTasks)*100));
+    console.log(wedAvg)
+    console.log(currTotalTasks)
     setAvgWednesday(wedAvg); 
   }
 
@@ -299,7 +301,7 @@ function App() {
     localStorage.setItem("storedTotalThursday", currThursday);
 
     const currTotalTasks = tasksFinishedTotal + 1;
-    const thurAvg = Math.round(currTotalTasks / currThursday);
+    const thurAvg = (Math.round(currTotalTasks / currThursday)*100);
     setAvgThursday(thurAvg); 
   }
 
@@ -309,7 +311,7 @@ function App() {
     localStorage.setItem("storedTotalFriday", currFriday);
 
     const currTotalTasks = tasksFinishedTotal + 1;
-    const friAvg = Math.round(currTotalTasks / currFriday);
+    const friAvg = (Math.round(currTotalTasks / currFriday)*100);
     setAvgFriday(friAvg); 
   }
 
@@ -319,26 +321,8 @@ function App() {
     localStorage.setItem("storedTotalSaturday", currSaturday);
 
     const currTotalTasks = tasksFinishedTotal + 1;
-    const satAvg = Math.round(currTotalTasks / currSaturday);
+    const satAvg = (Math.round(currTotalTasks / currSaturday)*100);
     setAvgSaturday(satAvg); 
-  }
-
-  function resetDates(){
-    setTotalSunday(0);
-    setTotalMonday(0);
-    setTotalTuesday(0);
-    setTotalWednesday(0);
-    setTotalThursday(0);
-    setTotalFriday(0);
-    setTotalSaturday(0);
-
-    localStorage.setItem("storedTotalSunday", 0);
-    localStorage.setItem("storageTotalMonday", 0);
-    localStorage.setItem("storageTotalTuesday", 0);
-    localStorage.setItem("storageTotalWednesday", 0);
-    localStorage.setItem("storageTotalThursday", 0);
-    localStorage.setItem("storageTotalFriday", 0);
-    localStorage.setItem("storageTotalSaturday", 0);
   }
 
   React.useEffect(() => {
@@ -384,7 +368,21 @@ function App() {
 
   function resetStats(){
     setTasksFinishedTotal(0);
+    setTotalSunday(0);
+    setTotalMonday(0);
+    setTotalTuesday(0);
+    setTotalWednesday(0);
+    setTotalThursday(0);
+    setTotalFriday(0);
+    setTotalSaturday(0);
     localStorage.setItem("totalTasks", 0);
+    localStorage.setItem("storedTotalSunday", 0);
+    localStorage.setItem("storageTotalMonday", 0);
+    localStorage.setItem("storageTotalTuesday", 0);
+    localStorage.setItem("storageTotalWednesday", 0);
+    localStorage.setItem("storageTotalThursday", 0);
+    localStorage.setItem("storageTotalFriday", 0);
+    localStorage.setItem("storageTotalSaturday", 0);
   }
 
   React.useEffect(() => {
@@ -480,7 +478,7 @@ function App() {
       </Drawer>
 
       <Drawer anchor={"bottom"} open={dashboard} onClose={toggleDashboardClose} transitionDuration={300}>
-        <div style = {{display: 'flex', flexDirection: "row", justifyContent: 'space-evenly'}}>
+        <div style = {{display: "flex", justifyContent: "center"}}>
           <Card style = {{margin: 25, width: window.innerWidth/4, borderRadius: 30, backgroundColor: deepPurple[200], color: grey[50], raised: true}}>
             <CardContent>
               <div style = {{display: 'flex', flexDirection: "column", fontFamily: 'Work Sans', fontSize: 55}}>
@@ -493,8 +491,17 @@ function App() {
             </CardContent>
           </Card>
           <Chart
-            chartType="ScatterChart"
-            data={[["Age", "Weight"], [4,5], [1,2]]}
+            chartType="BarChart"
+            data = {[
+              ["Year", "%", { role: "style" }],
+              ["Sunday", avgSunday, "color: lightblue"],
+              ["Monday", avgMonday, "color: lightblue"],
+              ["Tuesday", avgTuesday, "color: lightblue"],
+              ["Wednesday", avgWednesday, "color: lightblue"],
+              ["Thursday", avgThursday, "color: lightblue"],
+              ["Friday", avgFriday, "color: lightblue"],
+              ["Saturday", avgSaturday, "color: lightblue"],
+            ]}
             width="80%"
             height="300px"
             legendToggle
