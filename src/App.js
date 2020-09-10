@@ -118,6 +118,8 @@ function App() {
 
   function switchNightMode(){
 
+    console.log(avgWednesday)
+
     if(isNightMode){ 
       setIsNightMode(false);  
     }
@@ -265,7 +267,7 @@ function App() {
     const currTotalTasks = tasksFinishedTotal + 1;
     const monAvg = (Math.round((currMonday / currTotalTasks)*100));
     setAvgMonday(monAvg); 
-    localStorage.setItem("storedAvgMon", avgMonday);
+    localStorage.setItem("storedAvgMon", monAvg);
   }
 
   function addTuesday(){
@@ -276,7 +278,7 @@ function App() {
     const currTotalTasks = tasksFinishedTotal + 1;
     const tueAvg = (Math.round((currTuesday / currTotalTasks)*100));
     setAvgTuesday(tueAvg); 
-    localStorage.setItem("storedAvgTue", avgTuesday);
+    localStorage.setItem("storedAvgTue", tueAvg);
   }
 
   function addWednesday(){
@@ -287,7 +289,7 @@ function App() {
     const currTotalTasks = tasksFinishedTotal + 1;
     const wedAvg = (Math.round((currWednesday / currTotalTasks)*100));
     setAvgWednesday(wedAvg); 
-    localStorage.setItem("storedAvgWed", avgWednesday);
+    localStorage.setItem("storedAvgWed", wedAvg);
   }
 
   function addThursday(){
@@ -298,7 +300,7 @@ function App() {
     const currTotalTasks = tasksFinishedTotal + 1;
     const thurAvg = (Math.round((currThursday / currTotalTasks)*100));
     setAvgThursday(thurAvg); 
-    localStorage.setItem("storedAvgThu", avgThursday);
+    localStorage.setItem("storedAvgThu", thurAvg);
   }
 
   function addFriday(){
@@ -309,7 +311,7 @@ function App() {
     const currTotalTasks = tasksFinishedTotal + 1;
     const friAvg = (Math.round((currFriday / currTotalTasks)*100));
     setAvgFriday(friAvg); 
-    localStorage.setItem("storedAvgFri", avgFriday);
+    localStorage.setItem("storedAvgFri", friAvg);
   }
 
   function addSaturday(){
@@ -320,7 +322,7 @@ function App() {
     const currTotalTasks = tasksFinishedTotal + 1;
     const satAvg = (Math.round((currSaturday / currTotalTasks)*100));
     setAvgSaturday(satAvg); 
-    localStorage.setItem("storedAvgSat", avgSaturday);
+    localStorage.setItem("storedAvgSat", satAvg);
   }
 
   React.useEffect(() => {
