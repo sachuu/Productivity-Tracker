@@ -1,16 +1,16 @@
 {
   "manifest_version": 2,
-  "version": "1.0.1",
-  "name": "Session Organizer",
+  "version": "1.0.0",
+  "name": "ProductivtyPal",
   "description": "",
   "icons": {
-    "16": "assets/logo.png",
-    "48": "assets/logo.png",
-    "128": "assets/logo.png"
+    "16": "assets/16.png",
+    "48": "assets/48.png",
+    "128": "assets/128.png"
   },
   "chrome_url_overrides": {
     "newtab": "index.html"
   },
-  "content_security_policy": "script-src 'self' 'sha256-/8hmd4DqwVs419dLsNQ5IDmaKuXZyjZnNQcgWS+mCk4='; object-src 'self'",
+  "content_security_policy": "script-src 'self' 'sha256-/8hmd4DqwVs419dLsNQ5IDmaKuXZyjZnNQcgWS+mCk4=' https://www.gstatic.com/; object-src 'self'",
   "permissions": ["storage"]
 }

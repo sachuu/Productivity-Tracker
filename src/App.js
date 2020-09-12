@@ -62,17 +62,20 @@ function App() {
   const [currGreeting, setCurrGreeting] = useState(greetings[0]);
 
   function updateGreeting(){
+
     time = new Date();
     
     let hour = time.getHours();
 
+    console.log(hour)
+
     if(12 > hour && hour > 5){
       setCurrGreeting(greetings[0]);
     }
-    if((18 > hour && hour > 12) || hour === 12){
+    else if((18 >= hour && hour > 12) || hour === 12){
       setCurrGreeting(greetings[1]);
     }
-    if(hour > 18 || (5 > hour && hour >= 0)){
+    else if(hour > 18 || (5 > hour && hour >= 0)){
       setCurrGreeting(greetings[2]);
     }
   }
@@ -117,9 +120,9 @@ function App() {
   
   const [nightMode, setNightMode] = React.useState({
     background: "#FFFFFF",
-    banner: "#55BAF1",
     bannerText: "#FFFFFF",
     listText: "#000000",
+    banner: "#55BAF1",
     inputBackground: "FFFFFF",
   });
 
