@@ -1,6 +1,8 @@
 import uuid from "uuid";
 import React, {useState} from 'react';
 
+import './App.css';
+
 import { Chart } from "react-google-charts";
 
 import Drawer from '@material-ui/core/Drawer';
@@ -34,7 +36,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 function App() {
-
+   
   //Todos ----------
   const [todos, setTodos] = React.useState([]); 
 
@@ -102,10 +104,15 @@ function App() {
     
   //Night Mode Settings ----------
   const[isNightMode, setIsNightMode] = React.useState(false);
+  const[screenBackground, setScreenBackground] = React.useState("#FFFFFF");
 
   React.useEffect(() => {
     const sessionSettings = JSON.parse(localStorage.getItem("startupNightMode")) || [];
     setNightMode(sessionSettings);
+
+    const savedBackground = JSON.parse(localStorage.getItem("startupNightMode")) || [];
+    document.body.style.backgroundColor = savedBackground.background; 
+    setScreenBackground(savedBackground);
   }, []);
   
   const [nightMode, setNightMode] = React.useState({
@@ -117,55 +124,41 @@ function App() {
   });
 
   function switchNightMode(){
-
-    console.log(avgWednesday)
-
-    if(isNightMode){ 
-      setIsNightMode(false);  
-    }
-    else{
-      setIsNightMode(true);
-    }
-
+    const lightMode = {
+        background: "#413250", 
+        bannerText: "#413250",
+        listText: "#FFFFFF", 
+        banner: "#FFFFFF",
+        inputBackground: "#465C68"
+      }
+  
+    const darkMode = {
+        background: "#FFFFFF" ,
+        bannerText: "#FFFFFF" ,
+        listText: "#000000",
+        banner: "#55BAF1",
+        inputBackground: "#465C68"
+      }
+  
+    let currentMode;
+    let currSavedBackground;
+  
     if(isNightMode){
-      setNightMode(
-        {
-          background: "#413250", 
-          bannerText: "#413250",
-          listText: "#FFFFFF", 
-          banner: "#FFFFFF",
-          inputBackground: "#465C68"
-        });   
-
-        const currSession = {
-          background: "#413250" ,
-          bannerText: "#413250" ,
-          listText: "#FFFFFF",
-          banner: "#FFFFFF",
-          inputBackground: "#465C68"
-        };
-
-        localStorage.setItem("startupNightMode", JSON.stringify(currSession));
+      setIsNightMode(false);
+      currentMode = lightMode;
+      currSavedBackground = "#413250";
+      document.body.style.backgroundColor = currSavedBackground;
+    } else {
+      setIsNightMode(true);
+      currentMode = darkMode;
+      currSavedBackground = "#FFFFFF";
+      document.body.style.backgroundColor = currSavedBackground;
     }
-    else{
-      setNightMode({
-        background: "#FFFFFF" ,
-        bannerText: "#FFFFFF" ,
-        listText: "#000000",
-        banner: "#55BAF1",
-        inputBackground: "#465C68"
-      });
-
-      const currSession = {
-        background: "#FFFFFF" ,
-        bannerText: "#FFFFFF" ,
-        listText: "#000000",
-        banner: "#55BAF1",
-        inputBackground: "#465C68"
-      };
-
-      localStorage.setItem("startupNightMode", JSON.stringify(currSession));
-    }
+  
+    setNightMode(currentMode);   
+  
+    localStorage.setItem("startupNightMode", JSON.stringify(currentMode));
+    localStorage.setItem("savedScreenBackground", JSON.stringify(currSavedBackground));
   }
 
   //Drawer Settings ----------
@@ -486,7 +479,6 @@ function App() {
  
   return (
     <div style={{height: '100%', padding: 50, flexDirection: 'column', backgroundColor: nightMode.background}}>
-
       <div> 
         <div style = {{display: 'flex', fontFamily: 'Work Sans', fontSize: 25 , marginBottom: 25, color: '#CDCACA'}}>
           <text>{currGreeting}</text>
