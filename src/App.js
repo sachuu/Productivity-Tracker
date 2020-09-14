@@ -67,8 +67,6 @@ function App() {
     
     let hour = time.getHours();
 
-    console.log(hour)
-
     if(12 > hour && hour > 5){
       setCurrGreeting(greetings[0]);
     }
@@ -91,6 +89,18 @@ function App() {
     setCurrDate(days[currDay]);
   }
 
+  function storeColor(){
+    const initialMode = {
+      background: "#FFFFFF" ,
+      bannerText: "#FFFFFF" ,
+      listText: "#000000",
+      banner: "#55BAF1",
+      inputBackground: "#465C68"
+    }
+
+    localStorage.setItem("initialMode", JSON.stringify(initialMode));
+  }
+
   //Everything updated every second except storing greetings to limit database calls.
   React.useEffect(() => {
     updateGreeting();
@@ -104,19 +114,14 @@ function App() {
   React.useEffect(() => {
     setInterval(()=>updateDate(), 60000);
   });
+
+  React.useEffect(() => {
+    setInterval(()=>storeColor(), 60000);
+  });
     
   //Night Mode Settings ----------
   const[isNightMode, setIsNightMode] = React.useState(false);
   const[screenBackground, setScreenBackground] = React.useState("#FFFFFF");
-
-  React.useEffect(() => {
-    const sessionSettings = JSON.parse(localStorage.getItem("startupNightMode")) || [];
-    setNightMode(sessionSettings);
-
-    const savedBackground = JSON.parse(localStorage.getItem("startupNightMode")) || [];
-    document.body.style.backgroundColor = savedBackground.background; 
-    setScreenBackground(savedBackground);
-  }, []);
   
   const [nightMode, setNightMode] = React.useState({
     background: "#FFFFFF",
@@ -127,42 +132,75 @@ function App() {
   });
 
   function switchNightMode(){
-    const lightMode = {
-        background: "#413250", 
-        bannerText: "#413250",
-        listText: "#FFFFFF", 
-        banner: "#FFFFFF",
-        inputBackground: "#465C68"
-      }
-  
     const darkMode = {
-        background: "#FFFFFF" ,
-        bannerText: "#FFFFFF" ,
-        listText: "#000000",
-        banner: "#55BAF1",
-        inputBackground: "#465C68"
-      }
+      background: "#413250", 
+      bannerText: "#413250",
+      listText: "#FFFFFF", 
+      banner: "#FFFFFF",
+      inputBackground: "#465C68"
+    }
+  
+    const lightMode = {
+      background: "#FFFFFF" ,
+      bannerText: "#FFFFFF" ,
+      listText: "#000000",
+      banner: "#55BAF1",
+      inputBackground: "#465C68"
+    }
   
     let currentMode;
     let currSavedBackground;
   
     if(isNightMode){
-      setIsNightMode(false);
-      currentMode = lightMode;
+      currentMode = darkMode;
       currSavedBackground = "#413250";
       document.body.style.backgroundColor = currSavedBackground;
+      setIsNightMode(false);
+      setNightMode(darkMode);
+      localStorage.setItem("startupNightMode", JSON.stringify(darkMode));
+      localStorage.setItem("savedScreenBackground", JSON.stringify(currSavedBackground));
     } else {
-      setIsNightMode(true);
-      currentMode = darkMode;
+      currentMode = lightMode;
       currSavedBackground = "#FFFFFF";
       document.body.style.backgroundColor = currSavedBackground;
-    }
-  
-    setNightMode(currentMode);   
-  
-    localStorage.setItem("startupNightMode", JSON.stringify(currentMode));
-    localStorage.setItem("savedScreenBackground", JSON.stringify(currSavedBackground));
+      setIsNightMode(true);
+      setNightMode(lightMode);
+      localStorage.setItem("startupNightMode", JSON.stringify(lightMode));
+      localStorage.setItem("savedScreenBackground", JSON.stringify(currSavedBackground));
+    }   
   }
+
+  React.useEffect(() => {
+
+    const currSavedColor = JSON.parse(localStorage.getItem("startupNightMode")) || [];
+
+    const lightMode = {
+      background: "#FFFFFF" ,
+      bannerText: "#FFFFFF" ,
+      listText: "#000000",
+      banner: "#55BAF1",
+      inputBackground: "#465C68"
+    }
+
+    console.log(currSavedColor.banner);
+
+    if(currSavedColor.banner !== "#FFFFFF"){
+      localStorage.setItem("startupNightMode", JSON.stringify(lightMode));
+      const sessionSettings = JSON.parse(localStorage.getItem("startupNightMode")) || [];
+      setNightMode(sessionSettings);
+    }
+    else{
+      const sessionSettings = JSON.parse(localStorage.getItem("startupNightMode")) || [];
+      setNightMode(sessionSettings);
+    }
+  }, []);
+
+  React.useEffect(() => {
+    const savedBackground = JSON.parse(localStorage.getItem("savedScreenBackground")) || [];
+    console.log(savedBackground);
+    document.body.style.backgroundColor = savedBackground; 
+    setScreenBackground(savedBackground);
+  }, []);
 
   //Drawer Settings ----------
   const [drawer, setDrawer] = React.useState(false);
@@ -493,7 +531,6 @@ function App() {
           <div style = {{display: 'flex', fontFamily: 'Work Sans', fontSize: 55}}>
             <text>{currDate}</text>
           </div>
-
           <text style = {{display: 'flex', fontFamily: 'Work Sans', fontSize: 45}}>{currTime}</text>
         </CardContent>
       </Card>
