@@ -449,6 +449,14 @@ function App() {
     setTotalThursday(0);
     setTotalFriday(0);
     setTotalSaturday(0);
+    setAvgSunday(0);
+    setAvgMonday(0);
+    setAvgTuesday(0);
+    setAvgWednesday(0);
+    setAvgThursday(0);
+    setAvgFriday(0);
+    setAvgSaturday(0);
+
     localStorage.setItem("totalTasks", 0);
     localStorage.setItem("storedTotalSunday", 0);
     localStorage.setItem("storageTotalMonday", 0);
@@ -457,6 +465,16 @@ function App() {
     localStorage.setItem("storageTotalThursday", 0);
     localStorage.setItem("storageTotalFriday", 0);
     localStorage.setItem("storageTotalSaturday", 0);
+
+    localStorage.setItem("storedAvgSun", 0);
+    localStorage.setItem("storedAvgMon", 0);
+    localStorage.setItem("storedAvgTue", 0);
+    localStorage.setItem("storedAvgWed", 0);
+    localStorage.setItem("storedAvgThu", 0);
+    localStorage.setItem("storedAvgFri", 0);
+    localStorage.setItem("storedAvgSat", 0);
+
+    promptClose()
   }
 
   React.useEffect(() => {
@@ -600,7 +618,7 @@ function App() {
           <Button onClick={promptClose} color="primary">
             No
           </Button>
-          <Button onClick={promptClose, resetStats} color="primary" autoFocus>
+          <Button onClick={resetStats} color="primary" autoFocus>
             Yes
           </Button>
         </DialogActions>

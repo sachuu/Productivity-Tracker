@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "version": "1.0.0",
-  "name": "ProductivtyPal",
-  "description": "",
+  "version": "1.0.1",
+  "name": "ProductivityPal",
+  "description": "Track tasks on your new tab screen",
   "icons": {
     "16": "assets/16.png",
     "48": "assets/48.png",
