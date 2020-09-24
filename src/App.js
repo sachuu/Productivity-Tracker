@@ -315,6 +315,7 @@ function App() {
 
   function addThursday(){
     const currThursday = totalThursday + 1;
+    console.log(currThursday);
     setTotalThursday(totalThursday + 1);
     localStorage.setItem("storedTotalThursday", currThursday);
 
@@ -359,6 +360,11 @@ function App() {
     const thurAvg = (Math.round((totalThursday / currTotalTasks)*100));
     setAvgThursday(thurAvg); 
     localStorage.setItem("storedAvgThu", thurAvg);
+
+    const currThursday = totalThursday;
+    console.log(currThursday);
+    const tryTest = localStorage.getItem("storedAvgThu")
+    console.log(tryTest);
 
     const friAvg = (Math.round((totalFriday / currTotalTasks)*100));
     setAvgFriday(friAvg); 
@@ -410,37 +416,32 @@ function App() {
   }, []);
 
   React.useEffect(() => {
-    const totalStoredSun = JSON.parse(localStorage.getItem("storedTotalSunday")) || 0;
-    setTotalSunday(totalStoredSun);
-  }, []);
-
-  React.useEffect(() => {
-    const totalStoredMon = JSON.parse(localStorage.getItem("storageTotalMonday")) || 0;
+    const totalStoredMon = JSON.parse(localStorage.getItem("storedTotalMonday")) || 0;
     setTotalMonday(totalStoredMon);
   }, []);
 
   React.useEffect(() => {
-    const totalStoredTue = JSON.parse(localStorage.getItem("storageTotalTuesday")) || 0;
+    const totalStoredTue = JSON.parse(localStorage.getItem("storedTotalTuesday")) || 0;
     setTotalTuesday(totalStoredTue);
   }, []);
 
   React.useEffect(() => {
-    const totalStoredWed = JSON.parse(localStorage.getItem("storageTotalWednesday")) || 0;
+    const totalStoredWed = JSON.parse(localStorage.getItem("storedTotalWednesday")) || 0;
     setTotalWednesday(totalStoredWed);
   }, []);
 
   React.useEffect(() => {
-    const totalStoredThu = JSON.parse(localStorage.getItem("storageTotalThursday")) || 0;
+    const totalStoredThu = JSON.parse(localStorage.getItem("storedTotalThursday")) || 0;
     setTotalThursday(totalStoredThu);
   }, []);
 
   React.useEffect(() => {
-    const totalStoredFri = JSON.parse(localStorage.getItem("storageTotalFriday")) || 0;
+    const totalStoredFri = JSON.parse(localStorage.getItem("storedTotalFriday")) || 0;
     setTotalFriday(totalStoredFri);
   }, []);
 
   React.useEffect(() => {
-    const totalStoredSat = JSON.parse(localStorage.getItem("storageTotalSaturday")) || 0;
+    const totalStoredSat = JSON.parse(localStorage.getItem("storedTotalSaturday")) || 0;
     setTotalSaturday(totalStoredSat);
   }, []);
 
@@ -469,12 +470,12 @@ function App() {
 
     localStorage.setItem("totalTasks", 0);
     localStorage.setItem("storedTotalSunday", 0);
-    localStorage.setItem("storageTotalMonday", 0);
-    localStorage.setItem("storageTotalTuesday", 0);
-    localStorage.setItem("storageTotalWednesday", 0);
-    localStorage.setItem("storageTotalThursday", 0);
-    localStorage.setItem("storageTotalFriday", 0);
-    localStorage.setItem("storageTotalSaturday", 0);
+    localStorage.setItem("storedTotalMonday", 0);
+    localStorage.setItem("storedTotalTuesday", 0);
+    localStorage.setItem("storedTotalWednesday", 0);
+    localStorage.setItem("storedTotalThursday", 0);
+    localStorage.setItem("storedTotalFriday", 0);
+    localStorage.setItem("storedTotalSaturday", 0);
 
     localStorage.setItem("storedAvgSun", 0);
     localStorage.setItem("storedAvgMon", 0);
