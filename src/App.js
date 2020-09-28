@@ -182,8 +182,6 @@ function App() {
       inputBackground: "#465C68"
     }
 
-    console.log(currSavedColor.banner);
-
     if(currSavedColor.banner !== "#FFFFFF"){
       localStorage.setItem("startupNightMode", JSON.stringify(lightMode));
       const sessionSettings = JSON.parse(localStorage.getItem("startupNightMode")) || [];
@@ -197,7 +195,6 @@ function App() {
 
   React.useEffect(() => {
     const savedBackground = JSON.parse(localStorage.getItem("savedScreenBackground")) || [];
-    console.log(savedBackground);
     document.body.style.backgroundColor = savedBackground; 
     setScreenBackground(savedBackground);
   }, []);
@@ -283,23 +280,21 @@ function App() {
 
   function addSunday(){
     const currSunday = totalSunday + 1;
-    setTotalSunday(totalSunday + 1);
+    setTotalSunday(currSunday);
     localStorage.setItem("storedTotalSunday", currSunday);
-
     updateAllAverages();
   }
 
   function addMonday(){
     const currMonday = totalMonday + 1;
-    setTotalMonday(totalMonday + 1);
+    setTotalMonday(currMonday);
     localStorage.setItem("storedTotalMonday", currMonday);
-
     updateAllAverages();
   }
 
   function addTuesday(){
     const currTuesday = totalTuesday + 1;
-    setTotalTuesday(totalTuesday + 1);
+    setTotalTuesday(currTuesday);
     localStorage.setItem("storedTotalTuesday", currTuesday);
 
     updateAllAverages();
@@ -307,7 +302,7 @@ function App() {
 
   function addWednesday(){
     const currWednesday = totalWednesday + 1;
-    setTotalWednesday(totalWednesday + 1);
+    setTotalWednesday(currWednesday);
     localStorage.setItem("storedTotalWednesday", currWednesday);
 
     updateAllAverages();
@@ -315,8 +310,7 @@ function App() {
 
   function addThursday(){
     const currThursday = totalThursday + 1;
-    console.log(currThursday);
-    setTotalThursday(totalThursday + 1);
+    setTotalThursday(currThursday);
     localStorage.setItem("storedTotalThursday", currThursday);
 
     updateAllAverages();
@@ -324,7 +318,7 @@ function App() {
 
   function addFriday(){
     const currFriday = totalFriday + 1;
-    setTotalFriday(totalFriday + 1);
+    setTotalFriday(currFriday);
     localStorage.setItem("storedTotalFriday", currFriday);
 
     updateAllAverages();
@@ -332,7 +326,7 @@ function App() {
 
   function addSaturday(){
     const currSaturday = totalSaturday + 1;
-    setTotalSaturday(totalSaturday + 1);
+    setTotalSaturday(currSaturday);
     localStorage.setItem("storedTotalSaturday", currSaturday);
 
     updateAllAverages();
@@ -341,36 +335,38 @@ function App() {
   function updateAllAverages(){
     const currTotalTasks = tasksFinishedTotal + 1;
 
-    const sunAvg = (Math.round((totalSunday / currTotalTasks)*100));
+    const storedSunday = localStorage.getItem("storedTotalSunday");
+    const sunAvg = (Math.round((storedSunday / currTotalTasks)*100));
     setAvgSunday(sunAvg);
     localStorage.setItem("storedAvgSun", sunAvg);
 
-    const monAvg = (Math.round((totalMonday / currTotalTasks)*100));
+    const storedMonday = localStorage.getItem("storedTotalMonday");
+    const monAvg = (Math.round((storedMonday / currTotalTasks)*100));
     setAvgMonday(monAvg); 
     localStorage.setItem("storedAvgMon", monAvg);
 
-    const tueAvg = (Math.round((totalTuesday / currTotalTasks)*100));
+    const storedTuesday = localStorage.getItem("storedTotalTuesday");
+    const tueAvg = (Math.round((storedTuesday / currTotalTasks)*100));
     setAvgTuesday(tueAvg); 
     localStorage.setItem("storedAvgTue", tueAvg);
 
-    const wedAvg = (Math.round((totalWednesday / currTotalTasks)*100));
+    const storedWednesday = localStorage.getItem("storedTotalWednesday");
+    const wedAvg = (Math.round((storedWednesday / currTotalTasks)*100));
     setAvgWednesday(wedAvg); 
     localStorage.setItem("storedAvgWed", wedAvg);
 
-    const thurAvg = (Math.round((totalThursday / currTotalTasks)*100));
+    const storedThursday = localStorage.getItem("storedTotalThursday");
+    const thurAvg = (Math.round((storedThursday / currTotalTasks)*100));
     setAvgThursday(thurAvg); 
     localStorage.setItem("storedAvgThu", thurAvg);
 
-    const currThursday = totalThursday;
-    console.log(currThursday);
-    const tryTest = localStorage.getItem("storedAvgThu")
-    console.log(tryTest);
-
-    const friAvg = (Math.round((totalFriday / currTotalTasks)*100));
+    const storedFriday = localStorage.getItem("storedTotalFriday");
+    const friAvg = (Math.round((storedFriday / currTotalTasks)*100));
     setAvgFriday(friAvg); 
     localStorage.setItem("storedAvgFri", friAvg);
 
-    const satAvg = (Math.round((totalSaturday / currTotalTasks)*100));
+    const storedSaturday = localStorage.getItem("storedTotalSaturday");
+    const satAvg = (Math.round((storedSaturday / currTotalTasks)*100));
     setAvgSaturday(satAvg); 
     localStorage.setItem("storedAvgSat", satAvg);
   }
